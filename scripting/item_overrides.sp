@@ -135,10 +135,10 @@ public Action GivePermItems(Handle hTimer, int iClient)
 			Format(formatBuffer, 32, "%d_%s", iItemId, "slot");
 			bool isValidItem = GetTrieValue(g_hItemInfoTrie, formatBuffer, trieweaponSlot);
 			if(isValidItem) {
-				PrintToChatAll("valid %i %i", i, iItemId);
+				//PrintToChatAll("valid %i %i", i, iItemId);
 				GiveWeaponCustom(iClient, iItemId);
 			} else {
-				PrintToChatAll("invalid %i %i", i, iItemId);
+				//PrintToChatAll("invalid %i %i", i, iItemId);
 				EquipItemByItemIndex(iClient, iItemId);
 			}
 		}
@@ -171,7 +171,7 @@ stock bool GiveItemToClient(int iClient, int iId, int iSlot = -1) {
 	if (!bIsValidItem) {
 		if (!TF2Econ_IsValidItemDefinition(iId)) {
 			ReplyToCommand(iClient, "Unknown item index number: %i", iId);
-			ReplyToCommand(iClient, "For a list of index numbers type: !loadout"); 	
+			ReplyToCommand(iClient, "Something fucked up, tell an admin"); 	
 		
 			return false; 		
 		}
@@ -201,7 +201,7 @@ stock bool GiveItemToClient(int iClient, int iId, int iSlot = -1) {
 	if (iSlot < TFWeaponSlot_Item1) {
 		if (TF2Econ_GetItemLoadoutSlot(iId, TF2_GetPlayerClass(iClient)) < 0) {
 			PrintToChat(iClient, "Item %d is an invalid weapon for your current class", iId);
-			PrintToChat(iClient, "For list of valid index numbers by class type: !loadout"); 
+			PrintToChat(iClient, "Something fucked up, tell an admin"); 
 
 			return false; 			
 		}
@@ -210,7 +210,7 @@ stock bool GiveItemToClient(int iClient, int iId, int iSlot = -1) {
 	if (iSlot > TFWeaponSlot_PDA) {
 		if (TF2Econ_GetItemLoadoutSlot(iId, TF2_GetPlayerClass(iClient)) < 0) {
 			PrintToChat(iClient, "Item %d is an invalid weapon for your current class", iId);
-			PrintToChat(iClient, "For list of valid index numbers by class type: !loadout");
+			PrintToChat(iClient, "Something fucked up, tell an admin");
 
 			return false;  			
 		}
@@ -245,11 +245,9 @@ Action Command_GetLoadout(int iClient, int iArgs) {
 	
 	if (iArgs < 1)
 	{
-		ReplyToCommand(iClient, "[SM] Usage: !loadout <primary> <secondary> <melee>");
-		ReplyToCommand(iClient, "or for spy: !loadout <revolver> <sapper> <melee> <cloak>");
-		ReplyToCommand(iClient, "or !loadout reset");
-		ReplyToCommand(iClient, "If you only want to change one weapon, use x, for example: !loadout x 46 x");
-		ReplyToCommand(iClient, "You can generate weapons at https://wiki.alliedmods.net/Team_fortress_2_item_definition_indexes");
+		ReplyToCommand(iClient, "Visit tfitem.pages.dev to generate a loadout command");
+		ReplyToCommand(iClient, "(also linked in !discord)");
+		ReplyToCommand(iClient, "!lr to reset and stop the plugin from managing your weapons");
 
 		return Plugin_Handled;
 	}
@@ -287,7 +285,7 @@ Action Command_GetLoadout(int iClient, int iArgs) {
 		ReplyToCommand(iClient, "Gave you your items successfully!");
 		ReplyToCommand(iClient, "Touch a resupply cabinet to get them.");
 	} else {
-		ReplyToCommand(iClient, "An error occured when giving you at least one of your items.");
+		ReplyToCommand(iClient, "An error occured when giving you at least one of your items. Tell an admin!");
 	}
 	
 	return Plugin_Handled;
@@ -314,7 +312,7 @@ void EquipItemByItemIndex(int client, int itemindex)
 	if (!TF2Econ_IsValidItemDefinition(itemindex))
 	{
 		PrintToChat(client, "Unknown item index number: %i", itemindex);
-		PrintToChat(client, "For list of index numbers type: !index"); 	
+		PrintToChat(client, "Check !loadout"); 	
 		return;
 	}
 
@@ -379,7 +377,7 @@ int Items_CreateNamedItem(int client, int itemindex, const char[] classname, int
 	
 	if(weaponSlot < 6)
 	{
-		PrintToChatAll("slot %i", weaponSlot);
+		//PrintToChatAll("slot %i", weaponSlot);
 		TF2_RemoveWeaponSlot(client, weaponSlot);		
 	}
 	
