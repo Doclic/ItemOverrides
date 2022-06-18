@@ -1,0 +1,5 @@
+scripting/include
+
+*.exe
+*.cmd
+*.smx
